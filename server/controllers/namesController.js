@@ -49,6 +49,20 @@ module.exports = (function(){
 		create_name: function(req, res)
 			{
 				var new_name = req.params.name.toLowerCase();
+				String.prototype.capitalize = function() 
+				{
+				    return this.charAt(0).toUpperCase() + this.slice(1);
+				} // capitalize method
+				new_name = new_name.split(' ');
+				for(var idx=0; idx<new_name.length; idx++)
+				{
+					if(new_name[idx] != '')
+					{
+						new_name[idx] = new_name[idx].capitalize();
+					}
+				}
+				new_name = new_name.join(' ');
+				//capitalize name then insert to database
 				var names = new Names({name: new_name});
 				names.save(function(err, data)
 				{
@@ -58,14 +72,15 @@ module.exports = (function(){
 					}
 					else
 					{
-						res.json({log: "Successfully add a name to database!!!" });
+						res.redirect("/show_names");
 					}
 				})
 			},
 		remove_name: function(req, res)
 			{
-				var input_name = req.params.name.toLowerCase();
-				Names.remove({name: input_name}, function(err, data)
+				console.log(req.params.id);
+				var name_id = req.params.id.toLowerCase();
+				Names.remove({_id: name_id}, function(err, data)
 				{
 					if(err)
 					{
@@ -73,7 +88,7 @@ module.exports = (function(){
 					}
 					else
 					{
-						res.json({log: "Successfully delete " + input_name + " from database!!!" });
+						res.redirect('/show_names');
 					}
 				})
 			}

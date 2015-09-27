@@ -1,7 +1,7 @@
 var nameController = require('./../server/controllers/namesController.js');
 module.exports = function(app)
 	{
-		app.get('/', function(req, res)
+		app.get('/show_names', function(req, res)
 		{
 			nameController.show(req, res);
 		});
@@ -13,7 +13,7 @@ module.exports = function(app)
 		{
 			nameController.create_name(req, res);
 		});
-		app.get('/remove/:name', function(req, res)
+		app.get('/remove/:id', function(req, res)
 		{
 			nameController.remove_name(req, res);
 		})
